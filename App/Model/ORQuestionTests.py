@@ -28,9 +28,9 @@ class MyTestCase(unittest.TestCase):
         testNumber1_3 = 0
         testNumber1_4 = 1
         testNumber1_5 = 10
-        self.assertThrows(ValueError, testQ1.set_number, testNumber1_1)
-        self.assertThrows(ValueError, testQ1.set_number, testNumber1_2)
-        self.assertThrows(ValueError, testQ1.set_number, testNumber1_3)
+        self.assertRaises(ValueError, testQ1.set_number, testNumber1_1)
+        self.assertRaises(ValueError, testQ1.set_number, testNumber1_2)
+        self.assertRaises(ValueError, testQ1.set_number, testNumber1_3)
         testQ1.set_number(testNumber1_4)
         self.assertEqual(testNumber1_4, testQ1.get_number())
         testQ1.set_number(testNumber1_5)
@@ -38,13 +38,13 @@ class MyTestCase(unittest.TestCase):
 
         testQuestion1_1 = ""
         testQuestion1_2 = "What is the question?"
-        self.assertThrows(ValueError, testQ1.set_question, testQuestion1_1)
+        self.assertRaises(ValueError, testQ1.set_question, testQuestion1_1)
         testQ1.set_question(testQuestion1_2)
         self.assertEqual(testQuestion1_2, testQ1.get_question())
 
         testSolution1_1 = ""
         testSolution1_2 = "Suggested solution."
-        self.assertThrows(ValueError, testQ1.set_suggested_solution, testSolution1_1)
+        self.assertRaises(ValueError, testQ1.set_suggested_solution, testSolution1_1)
         testQ1.set_question(testSolution1_2)
         self.assertEqual(testSolution1_2, testQ1.get_suggested_solution())
 
