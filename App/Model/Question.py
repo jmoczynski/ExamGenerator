@@ -10,34 +10,41 @@ class Question:
 
     # accessor for number property of Question
     def get_number(self):
-        return None
+        return self._number
 
     # accessor for question property of Question
     def get_question(self):
-        return None
+        return self._question
 
     # accessor for answers property of Question
     def get_answers(self):
-        return None
+        return self._answers
 
     # accessor for solution property of Question
     def get_solution(self):
-        return None
+        return self._solution
 
     # mutator for number property of Question
     def set_number(self, number: int):
-        pass
+        if number < 1:
+            raise ValueError("Number property of Question must be at least 1.")
+        self._number = number
 
     # mutator for question property of Question
     def set_question(self, question: str):
-        pass
+        if len(question) < 1:
+            raise ValueError("Question property of Question must have a length of at least 1.")
+        self._question = question
 
     # mutator for answers property of Question
     def set_answers(self, answers: list):
-        pass
-
+        if len(answers) < 1:
+            raise ValueError("There must be at least 1 item in the Answer property of Question.")
+        self._answers = answers
 
     # mutator for solution property of Question
     def set_solution(self, solution: int):
-        pass
-
+        answers = self.get_answers()
+        if solution < 0 or solution >= len(answers):
+            raise ValueError("Solution property of Question must be within indices of Answers property of Question.")
+        self._solution = solution
