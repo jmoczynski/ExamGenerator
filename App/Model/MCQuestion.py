@@ -1,12 +1,12 @@
 # Question class
-class Question:
+class MCQuestion:
 
     # constructor for Question
-    def __init__(self, number=None, question=None, answers=None, solution=None):
+    def __init__(self, number=None, question=None, answers=None, solutions=None):
         self._number = number
         self._question = question
         self._answers = answers
-        self._solution = solution
+        self._solutions = solutions
 
     # accessor for number property of Question
     def get_number(self):
@@ -21,8 +21,8 @@ class Question:
         return self._answers
 
     # accessor for solution property of Question
-    def get_solution(self):
-        return self._solution
+    def get_solutions(self):
+        return self._solutions
 
     # mutator for number property of Question
     def set_number(self, number: int):
@@ -43,8 +43,11 @@ class Question:
         self._answers = answers
 
     # mutator for solution property of Question
-    def set_solution(self, solution: int):
+    def set_solutions(self, solutions: set[int]):
         answers = self.get_answers()
-        if solution < 0 or solution >= len(answers):
-            raise ValueError("Solution property of Question must be within indices of Answers property of Question.")
-        self._solution = solution
+        if len(solutions) > len(answers) or len(solutions) < 1:
+            raise ValueError("Solutions property of Question must have at least 1 element and a size within indices of Answers property of Question.")
+        for i in solutions:
+            if i < 0 or i >= len(answers):
+                raise ValueError("Each element of Solutions property of Question must be within indices of Answers property of Question.")
+        self._solutions = solutions
