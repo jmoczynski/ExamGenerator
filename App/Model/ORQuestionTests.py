@@ -45,7 +45,7 @@ class MyTestCase(unittest.TestCase):
         testSolution1_1 = ""
         testSolution1_2 = "Suggested solution."
         self.assertRaises(ValueError, testQ1.set_suggested_solution, testSolution1_1)
-        testQ1.set_question(testSolution1_2)
+        testQ1.set_suggested_solution(testSolution1_2)
         self.assertEqual(testSolution1_2, testQ1.get_suggested_solution())
 
 
