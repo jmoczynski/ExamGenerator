@@ -37,7 +37,7 @@ class Question:
         self._question = question
 
     # mutator for answers property of Question
-    def set_answers(self, answers: list):
+    def set_answers(self, answers: list[str]):
         if len(answers) < 1:
             raise ValueError("There must be at least 1 item in the Answer property of Question.")
         self._answers = answers
