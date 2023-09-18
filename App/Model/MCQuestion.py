@@ -1,16 +1,13 @@
 # Question class
-class MCQuestion:
+from Question import Question
+class MCQuestion(Question):
 
     # constructor for Question
-    def __init__(self, number=None, question=None, answers=None, solutions=None):
-        self._number = number
-        self._question = question
+    def __init__(self, question="Question?", answers=None, solutions=None):
+        super().__init__()
+        self.set_question(question)
         self._answers = answers
         self._solutions = solutions
-
-    # accessor for number property of Question
-    def get_number(self):
-        return self._number
 
     # accessor for question property of Question
     def get_question(self):
@@ -24,17 +21,11 @@ class MCQuestion:
     def get_solutions(self):
         return self._solutions
 
-    # mutator for number property of Question
-    def set_number(self, number: int):
-        if number < 1:
-            raise ValueError("Number property of Question must be at least 1.")
-        self._number = number
-
     # mutator for question property of Question
     def set_question(self, question: str):
         if len(question) < 1:
             raise ValueError("Question property of Question must have a length of at least 1.")
-        self._question = question
+        super().set_question(question)
 
     # mutator for answers property of Question
     def set_answers(self, answers: list[str]):
