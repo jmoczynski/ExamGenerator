@@ -31,3 +31,6 @@ class QuestionList:
 
     def _modify_ORQuestion(self, question: ORQuestion):
         pass
+
+    def delete_question(self, question: Question):
+        pass
