@@ -1,7 +1,7 @@
-from View import View
+from Application.View.App import App
 
 def view_tests():
-    view = View()
+    view = App()
     view.view()
 
 if __name__ == "__main__":

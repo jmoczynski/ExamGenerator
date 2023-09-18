@@ -1,9 +1,13 @@
 import tkinter as tk
+from tkinter import font
+from Application.Controller.AppController import AppController
+from Application.View.NewExamFrame import NewExamFrame
 
-class View:
+class App:
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         self._window = tk.Tk()
+        self.controller = AppController([NewExamFrame])
 
         self._menubar = tk.Menu(self._window)
         self.__set_menu()
@@ -18,7 +22,7 @@ class View:
     def __set_menu(self):
         file = tk.Menu(self._menubar, tearoff=0)
         self._menubar.add_cascade(label="File", menu=file)
-        file.add_command(label="New Exam", command=None)
+        file.add_command(label="New Exam", command=lambda: self.controller.show_frame("NewExamFrame"))
         file.add_command(label="Open Exam", command=None)
         file.add_command(label="Save Exam", command=None)
         file.add_command(label="Save Exam As", command=None)
@@ -42,3 +46,4 @@ class View:
 
     def view(self):
         self._window.mainloop()
+
