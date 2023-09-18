@@ -13,7 +13,7 @@ class AppController:
             page_name = F.__name__
             frame = F(parent=self.container, controller=self)
             self.frames[page_name] = frame
-            frame.grid(row=0, column=0, sticky="n")
+            frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("StartFrame")
 

@@ -27,6 +27,7 @@ class App:
     def __set_menu(self):
         file = tk.Menu(self._menubar, tearoff=0)
         self._menubar.add_cascade(label="File", menu=file)
+        file.add_command(label="Back to Start", command=lambda: self.controller.show_frame("StartFrame"))
         file.add_command(label="New Exam", command=lambda: self.controller.show_frame("NewExamFrame"))
         file.add_command(label="Open Exam", command=lambda: self.controller.show_frame("OpenExamFrame"))
         file.add_command(label="Save Exam", command=None)

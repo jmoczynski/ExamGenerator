@@ -8,4 +8,4 @@ class OpenExamFrame(Frame):
         self.controller = controller
         self.title_font = tk.font.Font(family="Helvetica", size="32", weight="bold")
         title = tk.Label(self, text="Open Exam", font=self.title_font, anchor="n")
-        title.pack(side="top", fill="both")
+        title.pack(side="top", fill="x")
