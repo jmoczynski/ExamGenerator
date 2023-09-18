@@ -23,7 +23,7 @@ class QuestionList:
     def add_question(self, question: Question):
         pass
 
-    def modify_question(self, question: Question):
+    def modify_question(self, index: int):
         pass
 
     def _modify_MCQuestion(self, question: MCQuestion):
@@ -32,5 +32,8 @@ class QuestionList:
     def _modify_ORQuestion(self, question: ORQuestion):
         pass
 
-    def delete_question(self, question: Question):
+    def delete_question(self, index: int):
+        pass
+
+    def randomize_questions(self):
         pass
