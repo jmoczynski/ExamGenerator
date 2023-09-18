@@ -14,6 +14,12 @@ class QuestionTests(unittest.TestCase):
         testQ1.set_question(testQuestion1_2)
         self.assertEqual(testQuestion1_2, testQ1.get_question())
 
+    def test_compare_questions(self):
+        self.assertTrue(False)
+
+    def test_same_question(self):
+        self.assertTrue(False)
+
 
 if __name__ == '__main__':
     unittest.main()
