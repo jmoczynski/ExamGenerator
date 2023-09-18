@@ -2,12 +2,14 @@ import tkinter as tk
 from tkinter import font
 from Application.Controller.AppController import AppController
 from Application.View.NewExamFrame import NewExamFrame
+from Application.View.StartFrame import StartFrame
 
 class App:
 
     def __init__(self, *args, **kwargs):
         self._window = tk.Tk()
-        self.controller = AppController([NewExamFrame])
+        self._frame_list = [StartFrame, NewExamFrame]
+        self.controller = AppController(frames=self._frame_list)
 
         self._menubar = tk.Menu(self._window)
         self.__set_menu()
@@ -28,7 +30,7 @@ class App:
         file.add_command(label="Save Exam As", command=None)
         file.add_command(label="Preview Exam", command=None)
         file.add_command(label="Export Exam", command=None)
-        file.add_command(label="Exit", command=None)
+        file.add_command(label="Exit", command=lambda: exit(0))
 
         edit = tk.Menu(self._menubar, tearoff=0)
         self._menubar.add_cascade(label="Edit", menu=edit)

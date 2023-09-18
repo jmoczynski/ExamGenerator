@@ -15,8 +15,12 @@ class AppController:
             self.frames[page_name] = frame
             frame.grid(row=0, column=0)
 
-        self.show_frame("NewExamFrame")
+        self._current_frame = None
+        self.show_frame("StartFrame")
 
     def show_frame(self, page_name):
+        if self._current_frame is not None:
+            self._current_frame.destroy()
         frame = self.frames[page_name]
+        self._current_frame = frame
         frame.tkraise()
