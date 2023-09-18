@@ -4,8 +4,8 @@ from tkinter import Frame
 class NewExamFrame(Frame):
 
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent,  background="White", width="1024", height="980")
+        tk.Frame.__init__(self, parent,  background="White")
         self.controller = controller
         self.title_font = tk.font.Font(family="Helvetica", size="32", weight="bold")
-        label = tk.Label(self, text="New Exam", font=self.title_font)
-        label.pack(side="top", fill="both")
+        title = tk.Label(self, text="New Exam", font=self.title_font, anchor="n")
+        title.pack(side="top", fill="both")
