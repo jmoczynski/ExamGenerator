@@ -31,15 +31,36 @@ class NewQuestionFrame(Frame):
         self.question_check = tk.Text(question_frame, fg="Red", height=1)
         self.question_check.insert(chars="Please check your question using the button below.", index="end")
         self.question_check.pack(side="top", anchor="nw")
-        tk.Button(question_frame, text="Check Validity", command=lambda: self.check_question(question_frame)).pack(side="top", anchor="nw")
+        tk.Button(question_frame, text="Check Validity", command=lambda: self.update_answer_frame()).pack(side="top", anchor="nw")
+
+        self.answer_frame = None
 
 
     def selection(self):
         selected = self.radio_var.get()
         self.controller.selection(selected)
+        result = self.check_question()
+        print(result)
+        if self.controller.get_question_type_selection() == 1:
+            if self.answer_frame is None and result is True:
+                self.answer_frame = tk.LabelFrame(self, text="3. Multiple Choice Answers")
+                self.answer_frame.pack(expand="yes", side="top", fill="both")
+            elif result is True:
+                self.answer_frame.config(text="3. Multiple Choice Answers")
+            elif self.answer_frame is not None:
+                self.answer_frame.destroy()
+        elif self.controller.get_question_type_selection() == 2:
+            if self.answer_frame is None and result is True:
+                self.answer_frame = tk.LabelFrame(self, text="3. Open Response Answers")
+                self.answer_frame.pack(expand="yes", side="top", fill="both")
+            elif result is True:
+                self.answer_frame.config(text="3. Open Response Answers")
+            elif self.answer_frame is not None:
+                self.answer_frame.destroy()
 
-    def check_question(self, frame):
+    def check_question(self):
         self.question_check.delete("1.0", "end")
+        result = False
         question = self.question_text.get("1.0", "end-1c")
         if len(question) < 1 or len(question.strip()) < 1:
             self.question_check.config(fg="Red")
@@ -49,3 +70,8 @@ class NewQuestionFrame(Frame):
             self.question_check.config(fg="Green")
             self.question_check.insert(chars="Question is valid.", index="end")
             self.question_check.pack(side="top", anchor="nw")
+            result = True
+        return result
+
+    def update_answer_frame(self):
+        self.selection()
