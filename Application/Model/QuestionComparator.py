@@ -11,6 +11,18 @@ class QuestionComparator:
         self._q1 = q1
         self._q2 = q2
 
+    def get_q1(self):
+        return self._q1
+
+    def get_q2(self):
+        return self._q2
+
+    def set_q1(self, q1: Question):
+        self._q1 = q1
+
+    def set_q2(self, q2: Question):
+        self._q2 = q2
+
     def compare_questions(self):
         if self._q1.__class__ != self._q2.__class__:
             return -4
@@ -29,7 +41,6 @@ class QuestionComparator:
             if self._q1.get_suggested_solution() != self._q2.get_suggested_solution():
                 return -1
             return 0
-
 
     def same_question(self):
         if self._q1.__class__ != self._q2.__class__:

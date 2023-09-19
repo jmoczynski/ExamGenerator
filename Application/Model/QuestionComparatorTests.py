@@ -6,6 +6,63 @@ from Application.Model.QuestionComparator import QuestionComparator
 
 
 class QuestionComparisonTests(unittest.TestCase):
+    def test_constructors_and_accessors(self):
+        testQ1_question = "What is the question?"
+        testQ1_answers = ["A", "B", "C"]
+        testQ1_solutions = [0]
+        testQ1 = MCQuestion(question=testQ1_question, answers=testQ1_answers, solutions=testQ1_solutions)
+
+        testQ2_question = "What is the question 2?"
+        testQ2_answers = ["A", "B", "C"]
+        testQ2_solutions = [1]
+        testQ2 = MCQuestion(question=testQ2_question, answers=testQ2_answers, solutions=testQ2_solutions)
+
+        testQ3_question = "What is the question?"
+        testQ3_solution = "Solution 2"
+        testQ3 = ORQuestion(question=testQ3_question, suggested_solution=testQ3_solution)
+
+        testQ4_question = "What is the question?"
+        testQ4_solution = "Solution"
+        testQ4 = ORQuestion(question=testQ4_question, suggested_solution=testQ4_solution)
+
+        testQC1 = QuestionComparator(testQ1, testQ2)
+        self.assertEqual(testQ1,testQC1.get_q1())
+        self.assertEqual(testQ2,testQC1.get_q2())
+        testQC2 = QuestionComparator(testQ3, testQ4)
+        self.assertEqual(testQ3,testQC2.get_q1())
+        self.assertEqual(testQ4,testQC2.get_q2())
+        testQC3 = QuestionComparator(testQ1, testQ3)
+        self.assertEqual(testQ1,testQC3.get_q1())
+        self.assertEqual(testQ3,testQC3.get_q2())
+        testQC4 = QuestionComparator(testQ4, testQ2)
+        self.assertEqual(testQ4,testQC4.get_q1())
+        self.assertEqual(testQ2,testQC4.get_q2())
+
+    def test_mutators(self):
+        testQ1_question = "What is the question?"
+        testQ1_answers = ["A", "B", "C"]
+        testQ1_solutions = [0]
+        testQ1 = MCQuestion(question=testQ1_question, answers=testQ1_answers, solutions=testQ1_solutions)
+
+        testQ2_question = "What is the question 2?"
+        testQ2_answers = ["A", "B", "C"]
+        testQ2_solutions = [1]
+        testQ2 = MCQuestion(question=testQ2_question, answers=testQ2_answers, solutions=testQ2_solutions)
+
+        testQ3_question = "What is the question?"
+        testQ3_solution = "Solution 2"
+        testQ3 = ORQuestion(question=testQ3_question, suggested_solution=testQ3_solution)
+
+        testQ4_question = "What is the question?"
+        testQ4_solution = "Solution"
+        testQ4 = ORQuestion(question=testQ4_question, suggested_solution=testQ4_solution)
+
+        testQC1 = QuestionComparator(testQ1, testQ2)
+        testQC1.set_q1(testQ4)
+        self.assertEqual(testQ4, testQC1.get_q1())
+        testQC1.set_q2(testQ3)
+        self.assertEqual(testQ3, testQC1.get_q2())
+
     def test_compare_questions(self):
         testQ1_question = "What is the question?"
         testQ1_answers = ["A", "B", "C"]
