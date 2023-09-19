@@ -55,7 +55,21 @@ class QuestionListTests(unittest.TestCase):
         self.assertTrue(False)
 
     def test_delete_question(self):
-        self.assertTrue(False)
+        testQList2_name = "test2"
+        testQList2_questions_question1 = MCQuestion("question", ["a", "b", "c"], [1])
+        testQList2_questions_question3 = MCQuestion("question", ["a", "b", "c", "d"], [1])
+        testQList2_questions_question4 = MCQuestion("question", ["a", "b", "c"], [1, 2])
+        testQList2_questions = [testQList2_questions_question1, testQList2_questions_question3, testQList2_questions_question4]
+        testQList2 = QuestionList(testQList2_name, testQList2_questions)
+        self.assertRaises(ValueError, testQList2.delete_question, -10)
+        self.assertRaises(ValueError, testQList2.delete_question, -1)
+        self.assertRaises(ValueError, testQList2.delete_question, 3)
+        self.assertRaises(ValueError, testQList2.delete_question, 10)
+        testQList2.delete_question(0)
+        self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter([testQList2_questions_question3, testQList2_questions_question4]))
+        testQList2.delete_question(1)
+        self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter([testQList2_questions_question3]))
+        self.assertRaises(ValueError, testQList2.delete_question, 0)
 
     def test_randomize_questions(self):
         self.assertTrue(False)

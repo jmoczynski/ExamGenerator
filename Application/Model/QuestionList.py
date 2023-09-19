@@ -1,6 +1,8 @@
 from Application.Model.Question import Question
 from Application.Model.MCQuestion import MCQuestion
 from Application.Model.ORQuestion import ORQuestion
+from Application.Model.QuestionComparator import QuestionComparator
+
 
 class QuestionList:
 
@@ -29,7 +31,11 @@ class QuestionList:
         self._name = name
 
     def add_question(self, question: Question):
-        pass
+        for Q in self.get_question_list():
+            comparator = QuestionComparator(Q, question)
+            if comparator.same_question():
+                raise ValueError("Cannot add a question to the QuestionList multiple times.")
+        self._question_list.append(question)
 
     def modify_question(self, index: int):
         pass
@@ -41,7 +47,11 @@ class QuestionList:
         pass
 
     def delete_question(self, index: int):
-        pass
+        if index >= len(self.get_question_list()) or index < 0:
+            raise ValueError("Cannot delete question from outside of QuestionList index range.")
+        if len(self.get_question_list()) == 1:
+            raise ValueError("Cannot delete the 1 remaining question from QuestionList.")
+        self._question_list.pop(index)
 
     def randomize_questions(self):
         pass
