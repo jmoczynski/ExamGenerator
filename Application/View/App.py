@@ -1,3 +1,4 @@
+import tkinter
 import tkinter as tk
 from tkinter import font
 from Application.Controller.AppController import AppController
@@ -37,6 +38,7 @@ class App:
         self.__set_menu()
 
         self.__set_window()
+
     def __set_window(self):
         self._window.geometry("1024x980")
         self._title = self._window.title("ExamGenerator")

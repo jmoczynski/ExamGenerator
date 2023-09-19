@@ -16,3 +16,9 @@ class NewQuestionController:
     def is_valid_question(self, value):
         if len(value) < 1: return False
         return True
+
+    def create_mc_question(self, question: str, answers: list[str], solutions: list[int]):
+        pass
+
+    def create_or_question(self, question: str, suggested_solution: str):
+        pass
