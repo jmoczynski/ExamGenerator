@@ -39,16 +39,16 @@ class QuestionComparisonTests(unittest.TestCase):
         testQ7_solution = "Solution"
         testQ7 = ORQuestion(question=testQ7_question, suggested_solution=testQ7_solution)
 
-        self.assertNotEquals(QuestionComparator(testQ1, testQ2).compare_questions(), 0)
-        self.assertNotEquals(QuestionComparator(testQ1, testQ3).compare_questions(), 0)
-        self.assertNotEquals(QuestionComparator(testQ1, testQ4).compare_questions(), 0)
-        self.assertNotEquals(QuestionComparator(testQ2, testQ3).compare_questions(), 0)
-        self.assertNotEquals(QuestionComparator(testQ2, testQ4).compare_questions(), 0)
+        self.assertNotEqual(QuestionComparator(testQ1, testQ2).compare_questions(), 0)
+        self.assertNotEqual(QuestionComparator(testQ1, testQ3).compare_questions(), 0)
+        self.assertNotEqual(QuestionComparator(testQ1, testQ4).compare_questions(), 0)
+        self.assertNotEqual(QuestionComparator(testQ2, testQ3).compare_questions(), 0)
+        self.assertNotEqual(QuestionComparator(testQ2, testQ4).compare_questions(), 0)
         self.assertEqual(QuestionComparator(testQ3, testQ4).compare_questions(), 0)
 
-        self.assertNotEquals(QuestionComparator(testQ1, testQ5).compare_questions(), 0)
-        self.assertNotEquals(QuestionComparator(testQ5, testQ6).compare_questions(), 0)
-        self.assertNotEquals(QuestionComparator(testQ6, testQ7).compare_questions(), 0)
+        self.assertNotEqual(QuestionComparator(testQ1, testQ5).compare_questions(), 0)
+        self.assertNotEqual(QuestionComparator(testQ5, testQ6).compare_questions(), 0)
+        self.assertNotEqual(QuestionComparator(testQ6, testQ7).compare_questions(), 0)
         self.assertEqual(QuestionComparator(testQ5, testQ7).compare_questions(), 0)
 
         self.assertEqual(QuestionComparator(testQ1, testQ1).compare_questions(), 0)
