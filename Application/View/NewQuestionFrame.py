@@ -10,6 +10,7 @@ class NewQuestionFrame(Frame):
 
         self.canvas = tk.Canvas(self)
         self.canvas.config(scrollregion=(0,0,1024,980*16), width=1024, height=980*8)
+        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
 
         self.scrollbar = tk.Scrollbar(self.canvas, orient="vertical", command=self.canvas.yview)
         self.canvas.config(yscrollcommand=self.scrollbar.set)
@@ -53,6 +54,10 @@ class NewQuestionFrame(Frame):
         self.mc_solutions_frame = None
         self.or_solution_frame = None
 
+        self.solutions = dict()
+
+    def _on_mousewheel(self, event):
+        self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     def selection(self, disable=False):
         selected = self.radio_var.get()
@@ -124,7 +129,7 @@ class NewQuestionFrame(Frame):
         self.answers_button.config(state="disabled")
         self.mc_solutions_frame = tk.LabelFrame(self.canvas, text="4. Multiple Choice Solutions", background="white")
         self.mc_solutions_frame.pack(side="top", expand="no", fill="both", anchor="nw")
-        self.canvas.create_window(0, 1200, window=self.mc_solutions_frame, anchor="nw")
+        self.canvas.create_window(0, 2000, window=self.mc_solutions_frame, anchor="nw")
 
         tk.Label(self.mc_solutions_frame, text="Question: " + self.question_text.get("1.0", "end")).pack(side="top", anchor="nw")
         for i in range(len(answers)):
@@ -132,28 +137,22 @@ class NewQuestionFrame(Frame):
             a_label = str(i+1) + ". " + a_str
             tk.Label(self.mc_solutions_frame, text=a_label, fg="Black").pack(side="top", anchor="nw")
 
-        self.num_solutions = tk.Entry(self.mc_solutions_frame, text="Enter the number of solutions.")
-        self.num_solutions.pack(side="top", anchor="nw")
-        self.num_solutions_button = tk.Button(self.mc_solutions_frame, text="Check Number", command=lambda: self.check_solutions())
-        self.num_solutions_button.pack(side="top", anchor="nw")
+        self.check_solutions()
 
-        self.num_solutions_label = None
+    def solutions_count_validation(self, p):
+        if (str.isnumeric(p) and int(p, 10) <= 10) or p == "":
+            return True
+        return False
 
     def check_solutions(self):
-        if len(self.answers) < int(self.num_solutions.get(), 10) or int(self.num_solutions.get(), 10) < 1 or self.num_solutions.get() == "":
-            if self.num_solutions_label is None:
-                self.num_solutions_label = tk.Label(self.mc_solutions_frame, text="Number of solutions must be between 1 and " + str(len(self.answers)), fg="Red")
-                self.num_solutions_label.pack(side="top", anchor="nw")
-            else:
-                self.num_solutions_label.config(text="Number of solutions must be between 1 and " + str(len(self.answers)))
-        else:
-            if self.num_solutions_label is None:
-                self.num_solutions_label = tk.Label(self.mc_solutions_frame, text="Number of solutions is accepted.", fg="Green")
-                self.num_solutions_label.pack(side="top", anchor="nw")
-            else:
-                self.num_solutions_label.config(text="Number of solutions is accepted.", fg="Green")
-                self.num_solutions_label.pack(side="top", anchor="nw")
-                self.num_solutions_button.config(state="disabled")
+        for i in range(len(self.answers)):
+            self.solutions[str(i)] = tk.IntVar()
+            solution_choice_box = tk.Checkbutton(self.mc_solutions_frame, variable=self.solutions[str(i)], text=self.answers[i].get("1.0", "end-1c"), onvalue=1, offvalue=0)
+            solution_choice_box.config(command=lambda: self.update_solution(i, solution_choice_box))
+            solution_choice_box.pack(side="top", anchor="nw")
+
+    def update_solution(self, i, box):
+        pass
 
     def check_question(self):
         result = False
