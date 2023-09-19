@@ -42,3 +42,16 @@ class MCQuestion(Question):
             if i < 0 or i >= len(answers):
                 raise ValueError("Each element of Solutions property of Question must be within indices of Answers property of Question.")
         self._solutions = solutions
+
+    def __repr__(self):
+        rep_str = ""
+        rep_str = rep_str + self.get_question()
+        answers = self.get_answers()
+        for i in range(len(answers)):
+            rep_str = rep_str + "\n\t" + str(i+1) + ". " + answers[i]
+        rep_str = rep_str + "\nSolution(s):"
+        solutions = self.get_solutions()
+        for i in solutions:
+            rep_str = rep_str + "\n\t" + str(i+1) + ". " + answers[i]
+        rep_str = rep_str + "\n"
+        return rep_str

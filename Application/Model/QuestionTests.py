@@ -1,5 +1,9 @@
 import unittest
+
+from Application.Model.MCQuestion import MCQuestion
+from Application.Model.ORQuestion import ORQuestion
 from Question import Question
+import Question as q
 
 class QuestionTests(unittest.TestCase):
     def test_constructors_and_accessors(self):
@@ -13,7 +17,6 @@ class QuestionTests(unittest.TestCase):
         self.assertRaises(ValueError, testQ1.set_question, testQuestion1_1)
         testQ1.set_question(testQuestion1_2)
         self.assertEqual(testQuestion1_2, testQ1.get_question())
-
 
 if __name__ == '__main__':
     unittest.main()
