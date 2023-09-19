@@ -2,7 +2,9 @@ import tkinter as tk
 from tkinter import font
 from Application.Controller.AppController import AppController
 from Application.View.AboutFrame import AboutFrame
+from Application.View.AddQuestionListFrame import AddQuestionListFrame
 from Application.View.DeleteQuestionFrame import DeleteQuestionFrame
+from Application.View.DeleteQuestionListFrame import DeleteQuestionListFrame
 from Application.View.ModifyQuestionFrame import ModifyQuestionFrame
 from Application.View.EditQuestionListFrame import EditQuestionListFrame
 from Application.View.ExportExamFrame import ExportExamFrame
@@ -23,8 +25,8 @@ class App:
         self._window = tk.Tk()
         self._frame_list = [StartFrame, NewExamFrame, OpenExamFrame, SaveExamFrame, SaveExamAsFrame,
                             PreviewExamFrame, ExportExamFrame, NewQuestionFrame, ModifyQuestionFrame,
-                            DeleteQuestionFrame, EditQuestionListFrame, ImportCSVFrame, RandomizeQuestionsFrame,
-                            HelpFrame, AboutFrame]
+                            DeleteQuestionFrame, AddQuestionListFrame, EditQuestionListFrame,
+                            DeleteQuestionListFrame, ImportCSVFrame, RandomizeQuestionsFrame, HelpFrame, AboutFrame]
         self.controller = AppController(frames=self._frame_list)
 
         self._menubar = tk.Menu(self._window)
@@ -56,7 +58,9 @@ class App:
         edit.add_command(label="New Question", command=lambda: self.controller.show_frame("NewQuestionFrame"))
         edit.add_command(label="Modify Question", command=lambda: self.controller.show_frame("ModifyQuestionFrame"))
         edit.add_command(label="Delete Question", command=lambda: self.controller.show_frame("DeleteQuestionFrame"))
+        edit.add_command(label="New Question List", command=lambda: self.controller.show_frame("AddQuestionListFrame"))
         edit.add_command(label="Edit Question List", command=lambda: self.controller.show_frame("EditQuestionListFrame"))
+        edit.add_command(label="Delete Question List", command=lambda: self.controller.show_frame("DeleteQuestionListFrame"))
         edit.add_command(label="Import CSV", command=lambda: self.controller.show_frame("ImportCSVFrame"))
         edit.add_command(label="Randomize Questions", command=lambda: self.controller.show_frame("RandomizeQuestionsFrame"))
 
