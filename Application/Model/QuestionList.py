@@ -1,3 +1,5 @@
+import random
+
 from Application.Model.Question import Question
 from Application.Model.MCQuestion import MCQuestion
 from Application.Model.ORQuestion import ORQuestion
@@ -37,15 +39,6 @@ class QuestionList:
                 raise ValueError("Cannot add a question to the QuestionList multiple times.")
         self._question_list.append(question)
 
-    def modify_question(self, index: int):
-        pass
-
-    def _modify_MCQuestion(self, question: MCQuestion):
-        pass
-
-    def _modify_ORQuestion(self, question: ORQuestion):
-        pass
-
     def delete_question(self, index: int):
         if index >= len(self.get_question_list()) or index < 0:
             raise ValueError("Cannot delete question from outside of QuestionList index range.")
@@ -54,4 +47,4 @@ class QuestionList:
         self._question_list.pop(index)
 
     def randomize_questions(self):
-        pass
+        random.shuffle(self._question_list)

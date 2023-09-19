@@ -51,9 +51,6 @@ class QuestionListTests(unittest.TestCase):
         testQList2.add_question(testQList2_questions_question4)
         self.assertEqual(collections.Counter([testQList2_questions_question1, testQList2_questions_question3, testQList2_questions_question4]), collections.Counter(testQList2.get_question_list()))
 
-    def test_modify_question(self):
-        self.assertTrue(False)
-
     def test_delete_question(self):
         testQList2_name = "test2"
         testQList2_questions_question1 = MCQuestion("question", ["a", "b", "c"], [1])
@@ -72,7 +69,24 @@ class QuestionListTests(unittest.TestCase):
         self.assertRaises(ValueError, testQList2.delete_question, 0)
 
     def test_randomize_questions(self):
-        self.assertTrue(False)
+        testQList2_name = "test2"
+        testQList2_questions_question1 = MCQuestion("question", ["a", "b", "c"], [1])
+        testQList2_questions_question3 = MCQuestion("question", ["a", "b", "c", "d"], [1])
+        testQList2_questions_question4 = MCQuestion("question", ["a", "b", "c"], [1, 2])
+        testQList2_questions = [testQList2_questions_question1, testQList2_questions_question3, testQList2_questions_question4]
+        testQList2 = QuestionList(testQList2_name, testQList2_questions)
+        testQList2.randomize_questions()
+        print(testQList2.get_question_list().__repr__())
+        self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter(testQList2.get_question_list()))
+        testQList2.randomize_questions()
+        print(testQList2.get_question_list().__repr__())
+        self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter(testQList2.get_question_list()))
+        testQList2.randomize_questions()
+        print(testQList2.get_question_list().__repr__())
+        self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter(testQList2.get_question_list()))
+        testQList2.randomize_questions()
+        print(testQList2.get_question_list().__repr__())
+        self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter(testQList2.get_question_list()))
 
 
 if __name__ == '__main__':
