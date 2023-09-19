@@ -39,6 +39,18 @@ class QuestionTests(unittest.TestCase):
         testQ4_solutions = [0, 1]
         testQ4 = MCQuestion(question=testQ4_question, answers=testQ4_answers, solutions=testQ4_solutions)
 
+        testQ5_question = "What is the question?"
+        testQ5_solution = "Solution"
+        testQ5 = ORQuestion(question=testQ5_question, suggested_solution=testQ5_solution)
+
+        testQ6_question = "What is the question?"
+        testQ6_solution = "Solution 2"
+        testQ6 = ORQuestion(question=testQ6_question, suggested_solution=testQ6_solution)
+
+        testQ7_question = "What is the question?"
+        testQ7_solution = "Solution"
+        testQ7 = ORQuestion(question=testQ7_question, suggested_solution=testQ7_solution)
+
         self.assertNotEquals(q.compare_questions(testQ1, testQ2), 0)
         self.assertNotEquals(q.compare_questions(testQ1, testQ3), 0)
         self.assertNotEquals(q.compare_questions(testQ1, testQ4), 0)
@@ -46,6 +58,13 @@ class QuestionTests(unittest.TestCase):
         self.assertNotEquals(q.compare_questions(testQ2, testQ4), 0)
         self.assertEqual(q.compare_questions(testQ3, testQ4), 0)
 
+        self.assertNotEquals(q.compare_questions(testQ1, testQ5))
+        self.assertNotEquals(q.compare_questions(testQ5, testQ6))
+        self.assertNotEquals(q.compare_questions(testQ6, testQ7))
+        self.assertEqual(q.compare_questions(testQ5, testQ7), 0)
+
+        self.assertEqual(q.compare_questions(testQ1, testQ1), 0)
+        self.assertEqual(q.compare_questions(testQ5, testQ5), 0)
     def test_same_question(self):
         testQ1_question = "What is the question?"
         testQ1_answers = ["A", "B", "C"]
@@ -67,12 +86,31 @@ class QuestionTests(unittest.TestCase):
         testQ4_solutions = [0, 1]
         testQ4 = MCQuestion(question=testQ4_question, answers=testQ4_answers, solutions=testQ4_solutions)
 
-        self.assertFalse(q.compare_questions(testQ1, testQ2))
-        self.assertFalse(q.compare_questions(testQ1, testQ3))
-        self.assertFalse(q.compare_questions(testQ1, testQ4))
-        self.assertFalse(q.compare_questions(testQ2, testQ3))
-        self.assertFalse(q.compare_questions(testQ2, testQ4))
-        self.assertTrue(q.compare_questions(testQ3, testQ4))
+        testQ5_question = "What is the question?"
+        testQ5_solution = "Solution"
+        testQ5 = ORQuestion(question=testQ5_question, suggested_solution=testQ5_solution)
+
+        testQ6_question = "What is the question?"
+        testQ6_solution = "Solution 2"
+        testQ6 = ORQuestion(question=testQ6_question, suggested_solution=testQ6_solution)
+
+        testQ7_question = "What is the question?"
+        testQ7_solution = "Solution"
+        testQ7 = ORQuestion(question=testQ7_question, suggested_solution=testQ7_solution)
+
+        self.assertFalse(q.same_question(testQ1, testQ2))
+        self.assertFalse(q.same_question(testQ1, testQ3))
+        self.assertFalse(q.same_question(testQ1, testQ4))
+        self.assertFalse(q.same_question(testQ2, testQ3))
+        self.assertFalse(q.same_question(testQ2, testQ4))
+        self.assertTrue(q.same_question(testQ3, testQ4))
+
+        self.assertFalse(q.same_question(testQ5, testQ6))
+        self.assertFalse(q.same_question(testQ6, testQ7))
+        self.assertTrue(q.same_question(testQ5, testQ7))
+
+        self.assertTrue(q.same_question(testQ1, testQ1))
+        self.assertTrue(q.same_question(testQ5, testQ5))
 
 if __name__ == '__main__':
     unittest.main()
