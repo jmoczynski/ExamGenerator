@@ -1,7 +1,7 @@
 import unittest
-from MCQuestion import MCQuestion
+from Application.Model.MCQuestion import MCQuestion
 
-class QuestionTests(unittest.TestCase):
+class MCQuestionTests(unittest.TestCase):
 
     def test_constructors_and_accessors(self):
         testQ1 = MCQuestion()

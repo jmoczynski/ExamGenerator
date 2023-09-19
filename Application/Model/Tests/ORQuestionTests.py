@@ -1,9 +1,9 @@
 import unittest
 
-from ORQuestion import ORQuestion
+from Application.Model.ORQuestion import ORQuestion
 
 
-class MyTestCase(unittest.TestCase):
+class ORQuestionsTests(unittest.TestCase):
 
     def test_constructors_and_accessors(self):
         testQ1 = ORQuestion()

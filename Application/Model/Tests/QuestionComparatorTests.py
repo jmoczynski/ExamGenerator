@@ -5,7 +5,7 @@ from Application.Model.ORQuestion import ORQuestion
 from Application.Model.QuestionComparator import QuestionComparator
 
 
-class QuestionComparisonTests(unittest.TestCase):
+class QuestionComparatorTests(unittest.TestCase):
     def test_constructors_and_accessors(self):
         testQ1_question = "What is the question?"
         testQ1_answers = ["A", "B", "C"]
