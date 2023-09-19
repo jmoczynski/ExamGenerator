@@ -1,4 +1,4 @@
-from Question import Question
+from Application.Model.Question import Question
 
 class ORQuestion(Question):
 
@@ -22,3 +22,9 @@ class ORQuestion(Question):
         if len(suggested_solution) < 1:
             raise ValueError("Suggested Solution property of Question cannot be empty.")
         self._suggested_solution = suggested_solution
+
+    def __repr__(self):
+        rep_str = ""
+        rep_str = rep_str + self.get_question()
+        rep_str = rep_str + "\nSuggested Solution:\n" + self.get_suggested_solution() + "\n"
+        return rep_str
