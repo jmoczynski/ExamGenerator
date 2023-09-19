@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import font
 from Application.Controller.AppController import AppController
+from Application.Controller.DBController import DBController
 from Application.View.AboutFrame import AboutFrame
 from Application.View.AddQuestionListFrame import AddQuestionListFrame
 from Application.View.DeleteQuestionFrame import DeleteQuestionFrame
@@ -28,14 +29,12 @@ class App:
                             DeleteQuestionFrame, AddQuestionListFrame, EditQuestionListFrame,
                             DeleteQuestionListFrame, ImportCSVFrame, RandomizeQuestionsFrame, HelpFrame, AboutFrame]
         self.controller = AppController(frames=self._frame_list)
+        self.db_controller = DBController()
 
         self._menubar = tk.Menu(self._window)
         self.__set_menu()
 
         self.__set_window()
-
-        self.frame1 = None
-
     def __set_window(self):
         self._window.geometry("1024x980")
         self._title = self._window.title("ExamGenerator")
@@ -51,7 +50,7 @@ class App:
         file.add_command(label="Save Exam As", command=lambda: self.controller.show_frame("SaveExamAsFrame"))
         file.add_command(label="Preview Exam", command=lambda: self.controller.show_frame("PreviewExamFrame"))
         file.add_command(label="Export Exam", command=lambda: self.controller.show_frame("ExportExamFrame"))
-        file.add_command(label="Exit", command=lambda: exit(0))
+        file.add_command(label="Exit", command=lambda: self.exit())
 
         edit = tk.Menu(self._menubar, tearoff=0)
         self._menubar.add_cascade(label="Edit", menu=edit)
@@ -71,4 +70,8 @@ class App:
 
     def view(self):
         self._window.mainloop()
+
+    def exit(self):
+        self.db_controller.close()
+        exit(0)
 
