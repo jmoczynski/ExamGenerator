@@ -1,3 +1,4 @@
+import collections
 import unittest
 
 from Application.Model.MCQuestion import MCQuestion
@@ -36,7 +37,19 @@ class QuestionListTests(unittest.TestCase):
         self.assertEqual(testQList1.get_question_list(), testQList1_questions)
 
     def test_add_question(self):
-        self.assertTrue(False)
+        testQList2_name = "test2"
+        testQList2_questions_question1 = MCQuestion("question", ["a", "b", "c"], [1])
+        testQList2_questions_question2 = MCQuestion("question", ["a", "b", "c"], [1])
+        testQList2_questions_question3 = MCQuestion("question", ["a", "b", "c", "d"], [1])
+        testQList2_questions_question4 = MCQuestion("question", ["a", "b", "c"], [1, 2])
+        testQList2_questions = [testQList2_questions_question1]
+        testQList2 = QuestionList(testQList2_name, testQList2_questions)
+        self.assertRaises(ValueError, testQList2.add_question, testQList2_questions_question1)
+        self.assertRaises(ValueError, testQList2.add_question, testQList2_questions_question2)
+        testQList2.add_question(testQList2_questions_question3)
+        self.assertEqual(collections.Counter([testQList2_questions_question1, testQList2_questions_question3]), collections.Counter(testQList2.get_question_list()))
+        testQList2.add_question(testQList2_questions_question4)
+        self.assertEqual(collections.Counter([testQList2_questions_question1, testQList2_questions_question3, testQList2_questions_question4]), collections.Counter(testQList2.get_question_list()))
 
     def test_modify_question(self):
         self.assertTrue(False)
