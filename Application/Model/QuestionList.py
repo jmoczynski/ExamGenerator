@@ -5,20 +5,28 @@ from Application.Model.ORQuestion import ORQuestion
 class QuestionList:
 
     def __init__(self, name: str, questions: list[Question]):
+        if len(name) < 1:
+            raise ValueError("Name property of QuestionList must not be empty.")
+        if len(questions) < 1:
+            raise ValueError("Question List property of QuestionList must not be empty.")
         self._name = name
         self._question_list = questions
 
     def get_question_list(self):
-        pass
+        return self._question_list
 
     def set_question_list(self, questions: list[Question]):
-        pass
+        if len(questions) < 1:
+            raise ValueError("Question List property of QuestionList must not be empty.")
+        self._question_list = questions
 
     def get_name(self):
-        pass
+        return self._name
 
     def set_name(self, name: str):
-        pass
+        if len(name) < 1:
+            raise ValueError("Name property of QuestionList must not be empty.")
+        self._name = name
 
     def add_question(self, question: Question):
         pass
