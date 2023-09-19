@@ -1,5 +1,5 @@
 # Question class
-from Question import Question
+from Application.Model.Question import Question
 class MCQuestion(Question):
 
     # constructor for Question

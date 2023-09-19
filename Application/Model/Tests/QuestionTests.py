@@ -2,8 +2,7 @@ import unittest
 
 from Application.Model.MCQuestion import MCQuestion
 from Application.Model.ORQuestion import ORQuestion
-from Question import Question
-import Question as q
+from Application.Model.Question import Question
 
 class QuestionTests(unittest.TestCase):
     def test_constructors_and_accessors(self):

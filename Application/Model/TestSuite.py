@@ -18,6 +18,7 @@ def run_test_suite():
     suite = unittest.TestSuite(test_list)
     runner = unittest.TextTestRunner()
     results = runner.run(suite)
+    return results.wasSuccessful()
 
 if __name__ == "__main__":
     run_test_suite()

@@ -1,4 +1,4 @@
-from Question import Question
+from Application.Model.Question import Question
 
 class ORQuestion(Question):
 
