@@ -48,3 +48,10 @@ class QuestionList:
 
     def randomize_questions(self):
         random.shuffle(self._question_list)
+
+    def __repr__(self):
+        rep_str = ""
+        questions = self.get_question_list()
+        for i in range(len(questions)):
+            rep_str = rep_str + str(i+1) + ". " + questions[i].__repr__()
+        return rep_str

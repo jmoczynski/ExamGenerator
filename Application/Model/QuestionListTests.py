@@ -73,19 +73,20 @@ class QuestionListTests(unittest.TestCase):
         testQList2_questions_question1 = MCQuestion("question", ["a", "b", "c"], [1])
         testQList2_questions_question3 = MCQuestion("question", ["a", "b", "c", "d"], [1])
         testQList2_questions_question4 = MCQuestion("question", ["a", "b", "c"], [1, 2])
-        testQList2_questions = [testQList2_questions_question1, testQList2_questions_question3, testQList2_questions_question4]
+        testQList2_questions_question5 = ORQuestion("question", "solution")
+        testQList2_questions = [testQList2_questions_question1, testQList2_questions_question3, testQList2_questions_question4, testQList2_questions_question5]
         testQList2 = QuestionList(testQList2_name, testQList2_questions)
         testQList2.randomize_questions()
-        print(testQList2.get_question_list().__repr__())
+        print(testQList2.__repr__())
         self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter(testQList2.get_question_list()))
         testQList2.randomize_questions()
-        print(testQList2.get_question_list().__repr__())
+        print(testQList2.__repr__())
         self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter(testQList2.get_question_list()))
         testQList2.randomize_questions()
-        print(testQList2.get_question_list().__repr__())
+        print(testQList2.__repr__())
         self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter(testQList2.get_question_list()))
         testQList2.randomize_questions()
-        print(testQList2.get_question_list().__repr__())
+        print(testQList2.__repr__())
         self.assertEqual(collections.Counter(testQList2.get_question_list()), collections.Counter(testQList2.get_question_list()))
 
 
