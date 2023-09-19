@@ -11,8 +11,8 @@ class Question:
             raise ValueError("Question property of Question cannot be empty.")
         self._question = question
 
-def compare_questions(q1, q2: Question):
+def compare_questions(q1: Question, q2: Question):
     pass
 
-def same_question(q1, q2: Question):
+def same_question(q1: Question, q2: Question):
     pass
