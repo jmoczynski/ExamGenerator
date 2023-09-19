@@ -10,9 +10,3 @@ class Question:
         if len(question) < 1:
             raise ValueError("Question property of Question cannot be empty.")
         self._question = question
-
-def compare_questions(q1: Question, q2: Question):
-    pass
-
-def same_question(q1: Question, q2: Question):
-    pass
