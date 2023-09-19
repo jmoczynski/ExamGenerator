@@ -1,5 +1,8 @@
 import tkinter as tk
 
+from Application.Controller.NewQuestionController import NewQuestionController
+
+
 class AppController:
 
     def __init__(self, frames: list()):
@@ -8,10 +11,15 @@ class AppController:
         self.container.grid_rowconfigure(0, weight="2")
         self.container.grid_columnconfigure(0, weight="2")
 
+        self.newquestion_controller = NewQuestionController()
+
         self.frames = {}
         for F in (frames):
             page_name = F.__name__
-            frame = F(parent=self.container, controller=self)
+            if page_name == "NewQuestionFrame":
+                frame = F(parent=self.container, controller=self.newquestion_controller)
+            else:
+                frame = F(parent=self.container, controller=self)
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 
