@@ -1,5 +1,6 @@
 from Application.Controller.DBController import DBController
 from Application.Model.MCQuestion import MCQuestion
+from Application.Model.ORQuestion import ORQuestion
 
 
 class NewQuestionController:
@@ -26,6 +27,16 @@ class NewQuestionController:
         try:
             question_obj = MCQuestion(question, answers, solutions)
             result = self.db_controller.create_mc_question(question, answers, solutions)
+            if not result:
+                raise Exception("Error in creating question.")
+            return question_obj
+        except (Exception):
+            return None
+
+    def create_or_question(self, question: str, solution: str):
+        try:
+            question_obj = ORQuestion(question, solution)
+            result = self.db_controller.create_or_question(question, solution)
             if not result:
                 raise Exception("Error in creating question.")
             return question_obj

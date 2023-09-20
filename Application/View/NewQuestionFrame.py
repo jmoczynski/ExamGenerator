@@ -68,6 +68,8 @@ class NewQuestionFrame(Frame):
         self.solutions = dict()
         self.solutions_button = None
 
+        self.suggested_solution_button = None
+
     def update_question(self):
         if self.check_question():
             self.question = self.question_text.get("1.0", "end-1c")
@@ -114,7 +116,10 @@ class NewQuestionFrame(Frame):
             self.num_answers_button.pack(side="top", anchor="nw")
         elif self.or_solution_frame is not None:
             tk.Label(self.or_solution_frame, text="Enter suggested solution.").pack(side="top", anchor="nw")
-            suggested_solution = tk.Text(self.or_solution_frame, height=5).pack(side="top", anchor="nw")
+            suggested_solution = tk.Text(self.or_solution_frame, height=5)
+            suggested_solution.pack(side="top", anchor="nw")
+            self.suggested_solution_button = tk.Button(self.or_solution_frame, command=self.create_or_question(suggested_solution))
+            self.suggested_solution_button.pack(side="top", anchor="nw")
 
         self.previous_selection = result
     def choices_count_validation(self, p):
@@ -166,6 +171,7 @@ class NewQuestionFrame(Frame):
         return False
 
     def check_solutions(self):
+        self.question_button.config(state="disabled")
         for i in range(len(self.answer_boxes)):
             self.solutions[str(i)] = tk.IntVar()
             solution_choice_box = tk.Checkbutton(self.mc_solutions_frame, variable=self.solutions[str(i)], text=self.answer_boxes[i].get("1.0", "end-1c"), onvalue=1, offvalue=0)
@@ -187,14 +193,24 @@ class NewQuestionFrame(Frame):
             question = self.controller.create_mc_question(self.question, self.answer_values, solutions_list)
             self.solutions_button.config(state="disabled")
             if question is not None:
-                tk.messagebox.showinfo("Question created successfully.")
+                tk.messagebox.showinfo(message="Question created successfully.")
             else:
-                tk.messagebox.showerror("Cannot create Question.")
+                tk.messagebox.showerror(message="Cannot create Question.")
                 return
         except (Exception):
-            tk.messagebox.showerror("Cannot create Question.")
+            tk.messagebox.showerror(message="Cannot create Question.")
             return
 
+    def create_or_question(self, suggested_solution_field: tk.Text):
+        try:
+            solution = suggested_solution_field.get("1.0", "end-1c").strip()
+            if len(solution) < 1:
+                raise Exception("Cannot have an empty suggested solution.")
+            self.suggested_solution_button.config(state="disabled")
+            question = self.controller.create_or_question(self.question, solution)
+        except (Exception):
+            tk.messagebox.showerror(message="Cannot create Question.")
+        return
 
     def check_question(self):
         result = False

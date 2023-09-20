@@ -88,3 +88,23 @@ class DBController:
 
         except (Exception):
             return False
+
+    def create_or_question(self, question: str, solution: str):
+        cursor = self._db_con.cursor()
+        try:
+            command = """INSERT INTO Question(question_text) VALUES(?);"""
+            cursor.execute(command, (question))
+            self._db_con.commit()
+
+            question_id = None
+            questions = cursor.execute("SELECT * FROM Question;").fetchall()
+            for q in questions:
+                if q[1] == question:
+                    question_id = q[0]
+                    break
+            command = """INSERT INTO ORQuestion(question_id, suggested_solution) VALUES(?, ?);"""
+            cursor.execute(command, (question_id, solution))
+
+            return True
+        except(Exception):
+            return False
