@@ -1,7 +1,12 @@
+from Application.Controller.DBController import DBController
+from Application.Model.MCQuestion import MCQuestion
+
+
 class NewQuestionController:
 
-    def __init__(self):
+    def __init__(self, db_controller: DBController):
         self._question_type_selection = 0
+        self.db_controller = db_controller
 
     def get_question_type_selection(self):
         return self._question_type_selection
@@ -18,7 +23,14 @@ class NewQuestionController:
         return True
 
     def create_mc_question(self, question: str, answers: list[str], solutions: list[int]):
-        pass
+        try:
+            question_obj = MCQuestion(question, answers, solutions)
+            result = self.db_controller.create_mc_question(question, answers, solutions)
+            if not result:
+                raise Exception("Error in creating question.")
+            return question_obj
+        except (Exception):
+            return None
 
     def create_or_question(self, question: str, suggested_solution: str):
         pass

@@ -12,17 +12,17 @@ class DBController:
         self._db_con.execute(command)
         command = ('CREATE TABLE IF NOT EXISTS MCQuestionAnswer('
                    'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'
-                   'answer text NOT NULL,'
+                   'answer_text TEXT NOT NULL,'
                    'question_id INTEGER NOT NULL,'
                    'FOREIGN KEY(question_id) REFERENCES Question(id)'
                    ');')
         self._db_con.execute(command)
         command = ('CREATE TABLE IF NOT EXISTS MCQuestionSolution('
                    'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'
-                   'mcquestionanswer_id INTEGER NOT NULL,'
+                   'mcquestion_answer_id INTEGER NOT NULL,'
                    'question_id INTEGER NOT NULL,'
                    'FOREIGN KEY(question_id) REFERENCES Question(id), '
-                   'FOREIGN KEY(mcquestionanswer_id) REFERENCES MCQuestionAnswer(id)'
+                   'FOREIGN KEY(mcquestion_answer_id) REFERENCES MCQuestionAnswer(id)'
                    ');')
         self._db_con.execute(command)
         command = ('CREATE TABLE IF NOT EXISTS ORQuestion('
@@ -49,3 +49,42 @@ class DBController:
 
     def close(self):
         self._db_con.close()
+
+    def create_mc_question(self, question: str, answers: list[str], solutions: list[int]):
+        try:
+            cursor = self._db_con.cursor()
+            command = """INSERT INTO Question(question_text) VALUES(?);"""
+            cursor.execute(command, (question))
+            self._db_con.commit()
+
+            question_id = None
+            questions = cursor.execute("SELECT * FROM Question;").fetchall()
+            for q in questions:
+                if q[1] == question:
+                    question_id = q[0]
+                    break
+
+            if question_id is None:
+                raise Exception("Error in retrieving question.")
+
+            for a in answers:
+                command = """INSERT INTO MCQuestionAnswer(answer_text, question_id) VALUES (?,?);"""
+                cursor.execute(command, (a, question_id))
+            self._db_con.commit()
+
+            answer_ids = []
+            answers = cursor.execute("SELECT * FROM MCQuestionAnswer;").fetchall()
+            for a in answers:
+                if a[1] == question:
+                    answer_ids.append(a[0])
+                    break
+
+            for s in solutions:
+                command = """INSERT INTO MCQuestionSolution(mcquestion_answer_id, question_id) VALUES (?,?);"""
+                cursor.execute(command, (s, question_id))
+            self._db_con.commit()
+
+            return True
+
+        except (Exception):
+            return False

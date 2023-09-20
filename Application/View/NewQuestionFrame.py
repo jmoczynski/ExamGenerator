@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import Frame
+from tkinter import messagebox
 from Application.View import App
 
 class NewQuestionFrame(Frame):
@@ -58,7 +59,8 @@ class NewQuestionFrame(Frame):
         self.answers_label = None
         self.answer_frame = None
         self.answer_message = None
-        self.answers = []
+        self.answer_boxes = []
+        self.answer_values = []
 
         self.mc_solutions_frame = None
         self.or_solution_frame = None
@@ -124,13 +126,13 @@ class NewQuestionFrame(Frame):
         if num_answers != "" and int(num_answers) > 1:
             self.answer_message.config(text="Amount of Choices is valid.", fg="Green")
             self.num_answers_button.config(state="disabled")
-            self.answers = []
+            self.answer_boxes = []
             for i in range(int(num_answers)):
                 answer_field = tk.Text(self.answer_frame, height=5)
                 tk.Label(self.answer_frame, text=str(i+1) + ".").pack(side="top", anchor="nw")
                 answer_field.pack(side="top", anchor="nw", expand="no")
-                self.answers.append(answer_field)
-            self.answers_button = tk.Button(self.answer_frame, text="Enter Answers", command=lambda: self.check_answers(self.answers))
+                self.answer_boxes.append(answer_field)
+            self.answers_button = tk.Button(self.answer_frame, text="Enter Answers", command=lambda: self.check_answers(self.answer_boxes))
             self.answers_label = tk.Label(self.answer_frame, text="Answers Status")
             self.answers_label.pack(side="top", anchor="nw")
             self.answers_button.pack(side="top", anchor="nw")
@@ -152,6 +154,7 @@ class NewQuestionFrame(Frame):
         tk.Label(self.mc_solutions_frame, text="Question: " + self.question_text.get("1.0", "end")).pack(side="top", anchor="nw")
         for i in range(len(answers)):
             a_str = answers[i].get(index1="1.0", index2="end-1c")
+            self.answer_values.append(a_str)
             a_label = str(i+1) + ". " + a_str
             tk.Label(self.mc_solutions_frame, text=a_label, fg="Black").pack(side="top", anchor="nw")
 
@@ -163,9 +166,9 @@ class NewQuestionFrame(Frame):
         return False
 
     def check_solutions(self):
-        for i in range(len(self.answers)):
+        for i in range(len(self.answer_boxes)):
             self.solutions[str(i)] = tk.IntVar()
-            solution_choice_box = tk.Checkbutton(self.mc_solutions_frame, variable=self.solutions[str(i)], text=self.answers[i].get("1.0", "end-1c"), onvalue=1, offvalue=0)
+            solution_choice_box = tk.Checkbutton(self.mc_solutions_frame, variable=self.solutions[str(i)], text=self.answer_boxes[i].get("1.0", "end-1c"), onvalue=1, offvalue=0)
             solution_choice_box.config(command=lambda: self.print_solutions())
             solution_choice_box.pack(side="top", anchor="nw")
         self.solutions_button = tk.Button(self.mc_solutions_frame, text="Submit Solutions", command=lambda: self.create_mc_question())
@@ -176,8 +179,21 @@ class NewQuestionFrame(Frame):
             print(str(j+1) + ": " + str(self.solutions[str(j)].get()))
 
     def create_mc_question(self):
-        self.solutions_button.config(state="disabled")
-        self.controller.create_mc_question(self.question, self.answers, self.solutions)
+        solutions_list = []
+        for s in self.solutions.keys():
+            if self.solutions.get(s).get() == 1:
+                solutions_list.append(s)
+        try:
+            question = self.controller.create_mc_question(self.question, self.answer_values, solutions_list)
+            self.solutions_button.config(state="disabled")
+            if question is not None:
+                tk.messagebox.showinfo("Question created successfully.")
+            else:
+                tk.messagebox.showerror("Cannot create Question.")
+                return
+        except (Exception):
+            tk.messagebox.showerror("Cannot create Question.")
+            return
 
 
     def check_question(self):

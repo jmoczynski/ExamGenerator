@@ -31,8 +31,8 @@ class App:
                             DeleteQuestionFrame, AddQuestionListFrame, EditQuestionListFrame,
                             DeleteQuestionListFrame, ImportCSVFrame, RandomizeQuestionsFrame, HelpFrame, AboutFrame]
 
-        self.controller = AppController(frames=self._frame_list)
         self.db_controller = DBController()
+        self.controller = AppController(frames=self._frame_list, db_controller=self.db_controller)
 
         self._menubar = tk.Menu(self._window)
         self.__set_menu()
