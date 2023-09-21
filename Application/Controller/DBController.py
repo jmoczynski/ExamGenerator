@@ -93,3 +93,16 @@ class DBController:
             return True
         except(Exception):
             return False
+
+    def get_questions(self):
+        cursor = self._db_con.cursor()
+        command = """SELECT * FROM Question;"""
+        cursor.execute(command)
+        results = cursor.fetchall()
+        return results
+
+    def get_question(self, id: int):
+        pass
+
+    def get_question(self, question: str):
+        pass

@@ -20,8 +20,8 @@ class NewQuestionFrame(Frame):
 
         self.controller = controller
         self.title_font = tk.font.Font(family="Helvetica", size="32", weight="bold")
-        title = tk.Label(self.canvas, text="New Question", font=self.title_font, anchor="n", padx=4, pady=4, background="White")
-        title.pack(side="top", fill="both")
+        title = tk.Label(self.canvas, text="New Question", font=self.title_font, padx=4, pady=4, background="White")
+        title.pack(side="top", fill="both", anchor="n")
         self.canvas.create_window(0, 0, window=title, anchor="nw")
 
         self.question_type_frame = tk.LabelFrame(self.canvas, text="2. Question Type", background="White")
