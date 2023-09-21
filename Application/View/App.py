@@ -1,7 +1,9 @@
+import tkinter
 import tkinter as tk
 from tkinter import font
 from Application.Controller.AppController import AppController
 from Application.Controller.DBController import DBController
+from Application.Controller.NewQuestionController import NewQuestionController
 from Application.View.AboutFrame import AboutFrame
 from Application.View.AddQuestionListFrame import AddQuestionListFrame
 from Application.View.DeleteQuestionFrame import DeleteQuestionFrame
@@ -28,13 +30,15 @@ class App:
                             PreviewExamFrame, ExportExamFrame, NewQuestionFrame, ModifyQuestionFrame,
                             DeleteQuestionFrame, AddQuestionListFrame, EditQuestionListFrame,
                             DeleteQuestionListFrame, ImportCSVFrame, RandomizeQuestionsFrame, HelpFrame, AboutFrame]
-        self.controller = AppController(frames=self._frame_list)
+
         self.db_controller = DBController()
+        self.controller = AppController(frames=self._frame_list, db_controller=self.db_controller)
 
         self._menubar = tk.Menu(self._window)
         self.__set_menu()
 
         self.__set_window()
+
     def __set_window(self):
         self._window.geometry("1024x980")
         self._title = self._window.title("ExamGenerator")
