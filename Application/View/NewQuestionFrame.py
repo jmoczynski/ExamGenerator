@@ -24,9 +24,9 @@ class NewQuestionFrame(Frame):
         title.pack(side="top", fill="both")
         self.canvas.create_window(0, 0, window=title, anchor="nw")
 
-        self.question_type_frame = tk.LabelFrame(self.canvas, text="1. Question Type", background="White")
+        self.question_type_frame = tk.LabelFrame(self.canvas, text="2. Question Type", background="White")
         self.question_type_frame.pack(expand="no", side="top", fill="both")
-        self.canvas.create_window(0, 200, window=self.question_type_frame, anchor="nw")
+        self.canvas.create_window(0, 400, window=self.question_type_frame, anchor="nw")
         tk.Label(self.question_type_frame, text="Please choose the Question type.", background="White").pack(side="top", anchor="nw")
 
         self.radio_var = tk.IntVar(self.question_type_frame)
@@ -37,9 +37,9 @@ class NewQuestionFrame(Frame):
         self.radio_or = tk.Radiobutton(self.question_type_frame, text="Open Response", variable=self.radio_var, value=2, fg="Black", background="White", command=lambda: self.selection(disable=True))
         self.radio_or.pack(side="top", anchor="nw")
 
-        question_frame = tk.LabelFrame(self.canvas, text="2. Question", background="White")
+        question_frame = tk.LabelFrame(self.canvas, text="1. Question", background="White")
         question_frame.pack(expand="no", side="top", fill="both")
-        self.canvas.create_window(0, 400, window=question_frame, anchor="nw")
+        self.canvas.create_window(0, 200, window=question_frame, anchor="nw")
         tk.Label(question_frame, text="Please enter the Question.", background="White").pack(side="top", anchor="nw")
 
         self.question_text = tk.Text(question_frame, background="White", height=5)
@@ -73,6 +73,7 @@ class NewQuestionFrame(Frame):
     def update_question(self):
         if self.check_question():
             self.question = self.question_text.get("1.0", "end-1c")
+            self.question_text.config(state="disabled")
             print(self.question)
 
 
@@ -81,9 +82,6 @@ class NewQuestionFrame(Frame):
 
     def selection(self, disable=False):
         selected = self.radio_var.get()
-        if disable:
-            self.radio_mc.config(state="disabled")
-            self.radio_or.config(state="disabled")
 
         self.controller.selection(selected)
         if self.previous_selection == 0:
@@ -93,15 +91,23 @@ class NewQuestionFrame(Frame):
         if not result and self.num_answers_button is not None:
             self.num_answers_button.config(state="disabled")
         if self.controller.get_question_type_selection() == 1:
-            if self.answer_frame is None:
-                self.answer_frame = tk.LabelFrame(self.canvas, text="3. Multiple Choice Answers", background="White")
-                self.answer_frame.pack(expand="no", side="top", fill="both")
-                self.canvas.create_window(0, 600, window=self.answer_frame, anchor="nw")
+            if self.check_question():
+                if self.answer_frame is None:
+                    if disable:
+                        self.radio_mc.config(state="disabled")
+                        self.radio_or.config(state="disabled")
+                    self.answer_frame = tk.LabelFrame(self.canvas, text="3. Multiple Choice Answers", background="White")
+                    self.answer_frame.pack(expand="no", side="top", fill="both")
+                    self.canvas.create_window(0, 600, window=self.answer_frame, anchor="nw")
         elif self.controller.get_question_type_selection() == 2:
-            if self.or_solution_frame is None:
-                self.or_solution_frame = tk.LabelFrame(self.canvas, text="4. Open Response Suggested Solution", background="White")
-                self.or_solution_frame.pack(expand="no", side="top", fill="both")
-                self.canvas.create_window(0, 600, window=self.answer_frame, anchor="nw")
+            if self.check_question():
+                if self.or_solution_frame is None:
+                    if disable:
+                        self.radio_mc.config(state="disabled")
+                        self.radio_or.config(state="disabled")
+                    self.or_solution_frame = tk.LabelFrame(self.canvas, text="4. Open Response Suggested Solution", background="White")
+                    self.or_solution_frame.pack(expand="no", side="top", fill="both")
+                    self.canvas.create_window(0, 600, window=self.or_solution_frame, anchor="nw")
 
 
         if self.answer_frame is not None:
@@ -112,13 +118,14 @@ class NewQuestionFrame(Frame):
             self.answer_message = tk.Label(self.answer_frame, fg="Red", background="White")
             self.answer_message.config(text="Amount of Choices cannot be empty or 0.")
             self.answer_message.pack(side="top", anchor="nw")
-            self.num_answers_button = tk.Button(self.answer_frame, text="Enter Choice Amount", state="disabled", command=lambda: self.set_choices_entry(num_answers.get()))
+            self.num_answers_button = tk.Button(self.answer_frame, text="Enter Choice Amount", state="disabled", command=lambda: self.set_choices_entry(num_answers))
             self.num_answers_button.pack(side="top", anchor="nw")
         elif self.or_solution_frame is not None:
             tk.Label(self.or_solution_frame, text="Enter suggested solution.").pack(side="top", anchor="nw")
             suggested_solution = tk.Text(self.or_solution_frame, height=5)
             suggested_solution.pack(side="top", anchor="nw")
-            self.suggested_solution_button = tk.Button(self.or_solution_frame, command=self.create_or_question(suggested_solution))
+            self.suggested_solution_button = tk.Button(self.or_solution_frame, text="Submit")
+            self.suggested_solution_button.config(command=lambda: self.create_or_question(suggested_solution.get("1.0", "end-1c").strip()))
             self.suggested_solution_button.pack(side="top", anchor="nw")
 
         self.previous_selection = result
@@ -127,7 +134,9 @@ class NewQuestionFrame(Frame):
             return True
         return False
 
-    def set_choices_entry(self, num_answers):
+    def set_choices_entry(self, num_answers_field):
+        num_answers_field.config(state="disabled")
+        num_answers = num_answers_field.get()
         if num_answers != "" and int(num_answers) > 1:
             self.answer_message.config(text="Amount of Choices is valid.", fg="Green")
             self.num_answers_button.config(state="disabled")
@@ -201,13 +210,18 @@ class NewQuestionFrame(Frame):
             tk.messagebox.showerror(message="Cannot create Question.")
             return
 
-    def create_or_question(self, suggested_solution_field: tk.Text):
+    def create_or_question(self, suggested_solution: str):
         try:
-            solution = suggested_solution_field.get("1.0", "end-1c").strip()
+            solution = suggested_solution
             if len(solution) < 1:
                 raise Exception("Cannot have an empty suggested solution.")
             self.suggested_solution_button.config(state="disabled")
             question = self.controller.create_or_question(self.question, solution)
+            if question is not None:
+                tk.messagebox.showinfo(message="Question created successfully.")
+            else:
+                tk.messagebox.showerror(message="Cannot create Question.")
+                return
         except (Exception):
             tk.messagebox.showerror(message="Cannot create Question.")
         return
@@ -221,6 +235,7 @@ class NewQuestionFrame(Frame):
             if self.num_answers_button is not None:
                 self.num_answers_button.config(state="disabled")
         else:
+            self.question_button.config(state="disabled")
             self.question_check.config(text="Question is valid.", fg="Green")
             self.question_check.pack(side="top", anchor="nw")
             if self.num_answers_button is not None:

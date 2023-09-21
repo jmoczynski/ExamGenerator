@@ -6,7 +6,7 @@ class DBController:
     def __init__(self):
         self._db_con = sqlite3.connect(os.path.abspath("../data/db/data.db"))
         command = ('CREATE TABLE IF NOT EXISTS Question('
-                   'id INTEGER NOT NULL PRIMARY KEY,'
+                   'id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,'
                    'question_text TEXT NOT NULL'
                    ');')
         self._db_con.execute(command)
@@ -53,31 +53,20 @@ class DBController:
     def create_mc_question(self, question: str, answers: list[str], solutions: list[int]):
         try:
             cursor = self._db_con.cursor()
-            command = """INSERT INTO Question(question_text) VALUES(?);"""
+            command = """INSERT INTO Question(question_text) VALUES(?) RETURNING id;"""
             cursor.execute(command, (question))
+            question_id = cursor.fetchone()[0]
             self._db_con.commit()
-
-            question_id = None
-            questions = cursor.execute("SELECT * FROM Question;").fetchall()
-            for q in questions:
-                if q[1] == question:
-                    question_id = q[0]
-                    break
 
             if question_id is None:
                 raise Exception("Error in retrieving question.")
 
-            for a in answers:
-                command = """INSERT INTO MCQuestionAnswer(answer_text, question_id) VALUES (?,?);"""
-                cursor.execute(command, (a, question_id))
-            self._db_con.commit()
-
             answer_ids = []
-            answers = cursor.execute("SELECT * FROM MCQuestionAnswer;").fetchall()
             for a in answers:
-                if a[1] == question:
-                    answer_ids.append(a[0])
-                    break
+                command = """INSERT INTO MCQuestionAnswer(answer_text, question_id) VALUES (?,?) RETURNING id;"""
+                cursor.execute(command, (a, question_id))
+                answer_ids.append(cursor.fetchone()[0])
+            self._db_con.commit()
 
             for s in solutions:
                 command = """INSERT INTO MCQuestionSolution(mcquestion_answer_id, question_id) VALUES (?,?);"""
@@ -92,18 +81,14 @@ class DBController:
     def create_or_question(self, question: str, solution: str):
         cursor = self._db_con.cursor()
         try:
-            command = """INSERT INTO Question(question_text) VALUES(?);"""
+            command = """INSERT INTO Question(question_text) VALUES(?) RETURNING id;"""
             cursor.execute(command, (question))
+            question_id = cursor.fetchone()[0]
             self._db_con.commit()
 
-            question_id = None
-            questions = cursor.execute("SELECT * FROM Question;").fetchall()
-            for q in questions:
-                if q[1] == question:
-                    question_id = q[0]
-                    break
             command = """INSERT INTO ORQuestion(question_id, suggested_solution) VALUES(?, ?);"""
             cursor.execute(command, (question_id, solution))
+            self._db_con.commit()
 
             return True
         except(Exception):

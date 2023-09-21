@@ -42,6 +42,3 @@ class NewQuestionController:
             return question_obj
         except (Exception):
             return None
-
-    def create_or_question(self, question: str, suggested_solution: str):
-        pass
